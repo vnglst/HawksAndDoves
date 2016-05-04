@@ -1,0 +1,97 @@
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+<body style="margin:0">
+    <canvas id="canvas" />
+    <script>
+        var canvas = document.getElementById('canvas');
+        var scr = window.screen;
+        var width = canvas.width = scr.width;
+        var height = canvas.height = scr.height;
+        var tileSize = width > height ? width / 100 : height / 100;
+
+        var creature1 = {
+            x: 10,
+            y: 10,
+            doveToHawkRatio: 40 // 40% hawk
+        };
+
+        var creature2 = {
+            x: 20,
+            y: 20,
+            doveToHawkRatio: 90 // 90% dove
+        };
+
+        var creatures = [creature1, creature2];
+
+
+        creatures.push(breed(creature1));
+
+        var draw = function() {
+            // Redraw screen in black with alpha channel for fading
+            canvas.getContext('2d').fillStyle = 'rgba(0, 0, 0, .2)';
+            canvas.getContext('2d').fillRect(0, 0, width, height);
+
+            // Create kids
+            kids = creatures.map(function(creature) {
+              return breed(creature);
+            })
+
+            // Merge with parents
+            creatures = creatures.concat(kids);
+
+            // Loop through all creatures, draw them
+            creatures.map(function(creature) {
+
+                var creatureColor = calcCreatureColor(creature.doveToHawkRatio);
+                canvas.getContext('2d').fillStyle = creatureColor;
+
+                canvas.getContext('2d').fillRect(creature.x * tileSize, creature.y * tileSize, tileSize, tileSize);
+
+            });
+        };
+
+        // Call function draw with an interval of 33
+        setInterval(draw, 1000);
+
+        function breed(parent) {
+          var xDirection = Math.random() < 0.5 ? -1 : 1;
+          var yDirection = Math.random() < 0.5 ? -1 : 1;
+          var doveToHawkBonus = Math.round(Math.random() * 10) - 5;
+
+          var newCreature = {
+            x: parent.x + xDirection,
+            y: parent.y + yDirection,
+            doveToHawkRatio: parent.doveToHawkRatio - doveToHawkBonus
+          }
+
+          return newCreature;
+        }
+
+        function calcCreatureColor(doveToHawkRatio) {
+          // Calculate creature color
+          var hawkPart = (doveToHawkRatio - 50 < 0) ? doveToHawkRatio : 0 ;
+          var dovePart = (doveToHawkRatio - 50 > 0) ? doveToHawkRatio - 50 : 0;
+          var creatureRedColor = Math.round(hawkPart / 50 * 255);
+          var creatureGreenColor = Math.round(dovePart / 50 * 255);
+          return 'rgb(' + creatureRedColor + ', ' + creatureGreenColor + ', 0)';
+        }
+    </script>
+
+    <script>
+        // Google Analytics, ignore
+        // (function(i, s, o, g, r, a, m) {
+        //     i['GoogleAnalyticsObject'] = r;
+        //     i[r] = i[r] || function() {
+        //         (i[r].q = i[r].q || []).push(arguments)
+        //     }, i[r].l = 1 * new Date();
+        //     a = s.createElement(o),
+        //         m = s.getElementsByTagName(o)[0];
+        //     a.async = 1;
+        //     a.src = g;
+        //     m.parentNode.insertBefore(a, m)
+        // })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        //
+        // ga('create', 'UA-43209054-1', 'koenvangilst.nl');
+        // ga('send', 'pageview');
+    </script>
+</body>

@@ -1,0 +1,22 @@
+{
+  "name": "hawks",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "surge -p ./",
+    "start": "browser-sync start --server --files '**'"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "Koen van Gilst <koen.vangilst@gmail.com> (http://koenvangilst.nl)",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}
