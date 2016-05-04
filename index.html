@@ -23,16 +23,13 @@
 
         var creatures = [creature1, creature2];
 
-
-        creatures.push(breed(creature1));
-
         var draw = function() {
             // Redraw screen in black with alpha channel for fading
             canvas.getContext('2d').fillStyle = 'rgba(0, 0, 0, .2)';
             canvas.getContext('2d').fillRect(0, 0, width, height);
 
             // Create kids
-            kids = creatures.map(function(creature) {
+            children = creatures.map(function(creature) {
               return breed(creature);
             })
 
@@ -52,6 +49,10 @@
 
         // Call function draw with an interval of 33
         setInterval(draw, 1000);
+
+        function randomElement(array) {
+          return array[Math.floor(Math.random() * array.length)];
+        }
 
         function breed(parent) {
           var xDirection = Math.random() < 0.5 ? -1 : 1;
