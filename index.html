@@ -3,21 +3,22 @@
 <body style="margin:0">
     <canvas id="canvas" />
     <script>
+        var zoomFactor = 400;
         var canvas = document.getElementById('canvas');
         var scr = window.screen;
         var width = canvas.width = scr.width;
         var height = canvas.height = scr.height;
-        var tileSize = width > height ? width / 100 : height / 100;
+        var tileSize = width > height ? width / zoomFactor : height / zoomFactor;
 
         var creature1 = {
-            x: 10,
-            y: 10,
+            x: 50,
+            y: 50,
             doveToHawkRatio: 40 // 40% hawk
         };
 
         var creature2 = {
-            x: 20,
-            y: 20,
+            x: 150,
+            y: 150,
             doveToHawkRatio: 90 // 90% dove
         };
 
@@ -34,7 +35,9 @@
             })
 
             // Merge with parents
-            creatures = creatures.concat(kids);
+            creatures = maxPop(creatures.concat(children));
+
+
 
             // Loop through all creatures, draw them
             creatures.map(function(creature) {
@@ -48,15 +51,23 @@
         };
 
         // Call function draw with an interval of 33
-        setInterval(draw, 1000);
+        setInterval(draw, 33);
 
         function randomElement(array) {
           return array[Math.floor(Math.random() * array.length)];
         }
 
+        function maxPop(creatures) {
+          while (creatures.length > 5000) {
+            var rnd = Math.random() * creatures.length;
+            creatures.splice(rnd, 1);
+          }
+          return creatures;
+        }
+
         function breed(parent) {
-          var xDirection = Math.random() < 0.5 ? -1 : 1;
-          var yDirection = Math.random() < 0.5 ? -1 : 1;
+          var xDirection = randomElement([-1, 0, 1]);
+          var yDirection = randomElement([-1, 0, 1]);
           var doveToHawkBonus = Math.round(Math.random() * 10) - 5;
 
           var newCreature = {
