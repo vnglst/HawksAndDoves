@@ -2,8 +2,11 @@
   "env": {
     "browser": true
   },
+  "plugins": [
+    "html"
+  ],
   "extends": "eslint:recommended",
-  "extends": "airbnb",
+  # "extends": "airbnb",
   "rules": {
     "no-console": 1,
     "no-unused-vars": 0,
