@@ -6,21 +6,28 @@
     <body style="margin:0">
         <canvas id="canvas" />
         <script>
-            var maxPop = 5000;
-            var squareSize = 1;
-            var canvas = document.getElementById('canvas');
-            var scr = window.screen;
-            canvas.width = scr.width;
-            canvas.height = scr.height;
 
+            var windowWidth = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+
+            var windowHeight = window.innerHeight
+            || document.documentElement.clientHeight
+            || document.body.clientHeight;
+
+            var canvas = document.getElementById('canvas');
+            canvas.width = windowWidth;
+            canvas.height = windowHeight;
             // World is black;
             canvas.getContext('2d').fillStyle = 'rgba(0, 0, 0)';
-            canvas.getContext('2d').fillRect(0, 0, scr.width, scr.height);
+            canvas.getContext('2d').fillRect(0, 0, windowWidth, windowHeight);
 
+            var maxPop = 5000;
+            var squareSize = 1;
 
             var world = {
-              width: scr.width / squareSize,
-              height: scr.height / squareSize,
+              width: windowWidth / squareSize,
+              height: windowHeight / squareSize,
               squareSize: squareSize,
               ticks: 0
             }
@@ -45,7 +52,7 @@
 
               // Redraw screen in black with alpha channel for fading
               canvas.getContext('2d').fillStyle = 'rgba(0, 0, 0, .1)';
-              canvas.getContext('2d').fillRect(0, 0, scr.width, scr.height);
+              canvas.getContext('2d').fillRect(0, 0, windowWidth, windowHeight);
 
               // Loop through all creatures, draw them
               creatures.map(function(creature) {
